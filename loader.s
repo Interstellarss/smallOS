@@ -2,6 +2,7 @@
 .set FLAGS, (1<<0 | 1<<1)
 .set CHECKSUM, -(MAGIC + FLAGS)
 
+//use 
 .section .multboot
   .long MAGIC
   .long FLAGS
