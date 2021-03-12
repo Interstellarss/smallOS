@@ -6,8 +6,12 @@ void printf(char* str){
     }
 }
 
+/*since the name of the function will be replaced in C++, so our compiler could not find this function
+  with out "extern "C"".
 
-void kernelMain(void* nultiboot_structure, unsigned magicnumber){
+  Therefore, we add extern "C" here to make sure this part will compiled in the way C does.
+*/
+extern "C" void kernelMain(const void* nultiboot_structure, unsigned int magicnumber){
     printf("hello world");
     while(1);
 }

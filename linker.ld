@@ -1,6 +1,6 @@
 
-//specify the entry address of the program
-ENTRY(nomain)
+/*specify the entry address of the program*/
+ENTRY(loader)
 
 OUTPUT_FORMAT(elf32-i386)
 OUTPUT_ARCH(i386:i386)
@@ -19,6 +19,7 @@ SECTIONS
     .data :
     {
         start_ctors = .;
+        /*the initial segment is for constructor funtion*/
         KEEP(*(.init_array));
         KEEP(*(SORT_BY_INIT_PRIORITY(.init_array.*)));
         ent_ctors = .;
@@ -27,12 +28,12 @@ SECTIONS
 
     }
 
-    .bss
+    .bss :
     {
         *(.bss)
     }
 
-    //segment we no longer needed, for example comment parts.
+    /*give up segments we no longer needed, for example comment parts.*/
     /DISCARD/ :
     {
         *(.fini_array*)
