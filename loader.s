@@ -2,7 +2,7 @@
 .set FLAGS, (1<<0 | 1<<1)
 .set CHECKSUM, -(MAGIC + FLAGS)
 
-//use 
+//use grub to load, so a multiboot structure is needed
 .section .multboot
   .long MAGIC
   .long FLAGS
