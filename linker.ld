@@ -5,6 +5,12 @@ ENTRY(loader)
 OUTPUT_FORMAT(elf32-i386)
 OUTPUT_ARCH(i386:i386)
 
+/*
+phys = 0x100000;
+offset = 0xC000000;
+virt = offset + phys
+
+*/
 SECTIONS
 {
     . = 0x0100000;
@@ -12,7 +18,7 @@ SECTIONS
     .text :
     {
         *(.multiboot)
-        *(.test*)
+        *(.text*)
         *(.rodata)
     }
 

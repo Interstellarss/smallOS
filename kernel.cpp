@@ -29,7 +29,7 @@ extern "C" void callConstructors(){
 
 
 
-extern "C" void kernelMain(const void* nultiboot_structure, unsigned int magicnumber){
+extern "C" void kernelMain(const void* multiboot_structure, unsigned int magicnumber){
     printf((char*)"hello world");
     while(1);
 }

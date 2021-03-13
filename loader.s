@@ -1,26 +1,26 @@
-.set MAGIC, 0x1badb002
+.set MAGIC, 0x1BADB002
 .set FLAGS, (1<<0 | 1<<1)
 .set CHECKSUM, -(MAGIC + FLAGS)
 
 //use grub to load, so a multiboot structure is needed
-.section .multboot
+.section .multiboot
   .long MAGIC
   .long FLAGS
   .long CHECKSUM
 
+
+.extern _kernelMain
+.extern _callConstructors
+
+
 .section .text
-.extern kernelMain
-.extern callConstructors
+
 .global loader
-
-.section .mulboot
-
-
 loader:
   mov $kernel_stack, %esp
 
   call callConstructors
-  
+
   push %eax
   push %ebx
   call kernelMain 
