@@ -6,11 +6,29 @@ void printf(char* str){
     }
 }
 
+
 /*since the name of the function will be replaced in C++, so our compiler could not find this function
   with out "extern "C"".
 
   Therefore, we add extern "C" here to make sure this part will compiled in the way C does.
 */
+
+
+
+typedef void (*constructor)();
+
+extern "C" constructor start_ctors;
+
+extern "C" constructor end_ctors;
+
+extern "C" void callConstructors(){
+    for(constructor* i = &start_ctors; i != &end_ctors; i++){
+        (*i)();
+    }
+}
+
+
+
 extern "C" void kernelMain(const void* nultiboot_structure, unsigned int magicnumber){
     printf((char*)"hello world");
     while(1);

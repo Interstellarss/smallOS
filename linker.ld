@@ -22,7 +22,7 @@ SECTIONS
         /*the initial segment is for constructor funtion*/
         KEEP(*(.init_array));
         KEEP(*(SORT_BY_INIT_PRIORITY(.init_array.*)));
-        ent_ctors = .;
+        end_ctors = .;
 
         *(.data)
 
