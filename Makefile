@@ -1,8 +1,8 @@
 # sudo apt-get install g++ binutils libc6-dev-i386
 
-GCCPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore
+GCCPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-pie
 ASPARAMS = --32
-LDPARAMS = -melf_i386
+LDPARAMS = -melf_i386 -no-pie
 
 objects = loader.o kernel.o
 
@@ -14,7 +14,7 @@ in windows is .dll file, while .so in linux\
 So when our gcc version is too high, so we have to turn off pie and pic manually
 
 %.o: %.cpp
-	gcc $(GCCPARAMS) -c -o $@ $<
+	g++ $(GCCPARAMS) -c -o $@ $<
 
 %.o: %.s
 	as $(ASPARAMS) -o $@ $<

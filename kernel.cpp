@@ -12,7 +12,7 @@ void printf(char* str){
   Therefore, we add extern "C" here to make sure this part will compiled in the way C does.
 */
 extern "C" void kernelMain(const void* nultiboot_structure, unsigned int magicnumber){
-    printf("hello world");
+    printf((char*)"hello world");
     while(1);
 }
 
