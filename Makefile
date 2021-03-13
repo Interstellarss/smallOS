@@ -6,7 +6,12 @@ LDPARAMS = -melf_i386
 
 objects = loader.o kernel.o
 
-
+#A potential problem here is called "undefined reference to _GLOBAL_OFFSET_TABLE"\
+Something about _GLOBAL_OFFSET_TABLE :\
+it is nomally dynamic linker lib, within this held structures that most program would share\
+in windows is .dll file, while .so in linux\
+\
+So when our gcc version is too high, so we have to turn off pie and pic manually
 
 %.o: %.cpp
 	gcc $(GCCPARAMS) -c -o $@ $<
