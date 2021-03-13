@@ -1,6 +1,8 @@
+#include "types.h"
+
 void printf(char* str){
     //0xb800 is the address for graphic card
-    unsigned short* VideoMemory = (unsigned short*)0xb8000;
+    static uint16_t* VideoMemory = (unsigned uint16_t*)0xb8000;
     for(int i = 0; str[i];i++){
         VideoMemory[i] = (VideoMemory[i] & 0xff00) | str[i];
     }
@@ -12,9 +14,6 @@ void printf(char* str){
 
   Therefore, we add extern "C" here to make sure this part will compiled in the way C does.
 */
-
-
-
 typedef void (*constructor)();
 
 extern "C" constructor start_ctors;
@@ -29,7 +28,7 @@ extern "C" void callConstructors(){
 
 
 
-extern "C" void kernelMain(const void* multiboot_structure, unsigned int magicnumber){
+extern "C" void kernelMain(const void* multiboot_structure, uint32_t magicnumber){
     printf((char*)"hello world!");
     while(1);
 }

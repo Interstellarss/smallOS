@@ -1,5 +1,5 @@
 # sudo apt-get install g++ binutils libc6-dev-i386
-# sudo apt-get install VirtualBox grub-efi-amd64
+# sudo apt-get install grub-efi-amd64
 #this should replace "sudo apt-get install VirtualBox grub-legacy xorriso"
 
 GCCPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-pie
@@ -8,12 +8,12 @@ LDPARAMS = -melf_i386
 
 objects = loader.o kernel.o
 
-#A potential problem here is called "undefined reference to _GLOBAL_OFFSET_TABLE"\
-Something about _GLOBAL_OFFSET_TABLE :\
-it is nomally dynamic linker lib, within this held structures that most program would share\
-in windows is .dll file, while .so in linux\
-\
-So when our gcc version is too high, so we have to turn off pie and pic manually
+#A potential problem here is called "undefined reference to _GLOBAL_OFFSET_TABLE"
+#Something about _GLOBAL_OFFSET_TABLE :
+#it is nomally dynamic linker lib, within this held structures that most program would share
+#in windows is .dll file, while .so in linux.
+#
+#So when our gcc version is too high, so we have to turn off pie and pic manually.
 
 %.o: %.cpp
 	g++ $(GCCPARAMS) -c -o $@ $<
@@ -44,6 +44,7 @@ mykernel.iso: mykernel.bin
 	
 	rm -rf iso
 
+#run the os with virtual box if you have already created one and named "myos" before
 run: mykernel.iso
 	(killall virtualboxvm && sleep 1) || true
 	virtualboxvm --startvm "myos" &
