@@ -22,21 +22,24 @@ class GlobalDescriptorTable{
                 uint8_t base_super;
 
         } __attribute__((packed)); /*this way data will not be aligned through compiler*/
+    
+    private:
 
-    SegmentDescriptor nullSegmentDescriptor;
+        SegmentDescriptor nullSegmentDescriptor;
 
-    SegmentDescriptor unusedSegmentDescriptor;
+        SegmentDescriptor unusedSegmentDescriptor;
 
-    SegmentDescriptor codeSegmentDescriptor;
+        SegmentDescriptor codeSegmentDescriptor;
 
-    SegmentDescriptor dataSegmentDescriptor;
-
+        SegmentDescriptor dataSegmentDescriptor;
+    
     public:
         GlobalDescriptorTable();
         ~GlobalDescriptorTable();
 
+        uint16_t CodeSegmentDescriptor();
+        uint16_t DataSegmentDescriptor();
 
-  
 };
 
 #endif
