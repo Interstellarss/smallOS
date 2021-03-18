@@ -65,6 +65,8 @@ uint32_t GlobalDescriptorTable::SegmentDescriptor::Base(){
     result = (result << 8) + target[3];
 
     result = (result << 8) + target[2];
+
+    return result;
 }
 
 uint32_t GlobalDescriptorTable::SegmentDescriptor::Limit(){
