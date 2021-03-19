@@ -33,4 +33,4 @@
 
 #OS file
 *.bin
-*.iso
+#*.iso
