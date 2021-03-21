@@ -1,6 +1,7 @@
 #include "types.h"
+#include "gdt.h"
 
-void printf(char* str){
+void printf(const char* str){
     //0xb800 is the address for graphic card
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
 
@@ -28,7 +29,7 @@ void printf(char* str){
         if(y >= 25){
             for(y = 0; y < 25; y++){
                 for(x = 0; x < 80; x++){
-                    VideoMemory[i] = (VideoMemory[i] & 0xff00) | ' ';
+                    VideoMemory[80 * y + x] = (VideoMemory[ 80 * y + x] & 0xff00) | ' ';
                 }
             }
             x = 0; y = 0;
@@ -58,9 +59,11 @@ extern "C" void callConstructors(){
 
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t magicnumber){
-    printf((char*)"hello world!");
-    printf((char*)'\n');
-    printf((char*)"hello world!");
+    printf("hello world!\n");
+    //printf((char*)'\n');
+    printf("cc");
+
+    GlobalDescriptorTable gdt;
 
     while(1);
 }
