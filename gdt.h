@@ -29,9 +29,9 @@ class GlobalDescriptorTable{
 
         SegmentDescriptor unusedSegmentDescriptor;
 
-        SegmentDescriptor codeSegmentDescriptor;
+        SegmentDescriptor codeSegmentSelector;
 
-        SegmentDescriptor dataSegmentDescriptor;
+        SegmentDescriptor dataSegmentSelector;
     
     public:
         GlobalDescriptorTable();

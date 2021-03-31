@@ -7,11 +7,10 @@
 
 class InterruptManager{
     protected:
-
         struct GateDescriptor{
             uint16_t handlerAddressLowBits;
             uint16_t gdt_codeSegmentSelector;
-            uint8_t reverse;
+            uint8_t reserved;
             uint8_t access;
             uint16_t handlerAddressHighBis;
 
@@ -19,14 +18,13 @@ class InterruptManager{
 
         static GateDescriptor interruptDescriptorTable[256];
 
-        static void SetInterruptDescriptorTableEntry(){
-            uint8_t interruptNumber;
-            uint16_t codeSegementSelectorOffset;
-            void (*handler)();
-            uint8_t DescriptorPrivilegeLevel;
-            uint8_t DescriptorType;
-
-        };
+        static void SetInterruptDescriptorTableEntry(
+            uint8_t interruptNumber,
+            uint16_t codeSegementSelectorOffset,
+            void (*handler)(),
+            uint8_t DescriptorPrivilegeLevel,
+            uint8_t DescriptorType
+        );
 
     public:
 
