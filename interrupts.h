@@ -26,10 +26,11 @@ class InterruptManager{
             uint8_t DescriptorType
         );
 
-    public:
+        uint16_t hardwareInterruptOffset;
 
-        InterruptManager(GlobalDescriptorTable* gdt);
-        ~InterruptManager();
+
+
+        static void InterruptIgnore();
 
         static uint32_t handleInterrupt(uint8_t interruptNumber, uint32_t esp);
 
@@ -73,6 +74,10 @@ class InterruptManager{
         static void HandleException0x13();
 
 
+    public:
+
+        InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* gdt);
+        ~InterruptManager();
 };
 
 
