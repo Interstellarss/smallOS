@@ -1,12 +1,27 @@
-#ifndef __INTERRUPTS_H
-#define __INTERRUPTS_H
+#ifndef __INTERRUPTSMANAGER_H
+#define __INTERRUPTSMANAGER_H
 
 #include "types.h"
 #include "port.h"
 #include "gdt.h"
 
 class InterruptManager{
+    public:
+
+        InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* gdt);
+        ~InterruptManager();
+
+        uint16_t HardwareInterruptOffset();
+
+        void Activate();
+
+        void Deactivate();
+
     protected:
+        static InterruptManager* ActivateInterruptManager;
+
+        static uint32_t HandleInterrupt(uint8_t interrupt, uint32_t esp);
+
         struct GateDescriptor{
             uint16_t handlerAddressLowBits;
             uint16_t gdt_codeSegmentSelector;
@@ -18,6 +33,19 @@ class InterruptManager{
 
         static GateDescriptor interruptDescriptorTable[256];
 
+        struct InterruptDescriptorTablePointer
+        {
+            uint16_t size;
+            uint32_t base;
+
+        } __attribute__((packed));
+
+
+        uint16_t hardwareInterruptOffset;
+
+        //static void InterruptIgnore();
+
+
         static void SetInterruptDescriptorTableEntry(
             uint8_t interruptNumber,
             uint16_t codeSegementSelectorOffset,
@@ -25,14 +53,11 @@ class InterruptManager{
             uint8_t DescriptorPrivilegeLevel,
             uint8_t DescriptorType
         );
-
-        uint16_t hardwareInterruptOffset;
-
-
+        
 
         static void InterruptIgnore();
-
-        static uint32_t handleInterrupt(uint8_t interruptNumber, uint32_t esp);
+        
+        //static uint32_t handleInterrupt(uint8_t interruptNumber, uint32_t esp);
 
         static void HandleInterruptRequest0x00();
         static void HandleInterruptRequest0x01();
@@ -74,13 +99,15 @@ class InterruptManager{
         static void HandleException0x13();
 
 
-    public:
+        Port8BitSlow programmableInterruptControllerMasterCommandPort;
 
-        InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* gdt);
-        ~InterruptManager();
+        Port8BitSlow programmableInterruptControllerMasterDataPort;
+
+        Port8BitSlow programmableInterruptControllerSlaveCommandPort;
+
+        Port8BitSlow programmableInterruptControllerSlaveDataPort;
+
+
 };
-
-
-
 
 #endif 
