@@ -1,13 +1,14 @@
 #include "types.h"
 #include "gdt.h"
 #include "interrupts.h"
+//#include "idt.h"
 
 void printf(const char* str){
     //0xb800 is the address for graphic card
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
 
     static uint8_t x = 0, y = 0;
-    for(int i = 0; str[i];i++){
+    for(int i = 0; str[i] != '\0';i++){
 
         switch (str[i])
         {
@@ -47,19 +48,19 @@ void printf(const char* str){
 */
 typedef void (*constructor)();
 
-extern "C" constructor start_ctors;
+extern "C" constructor _start_ctors;
 
-extern "C" constructor end_ctors;
+extern "C" constructor _end_ctors;
 
-extern "C" void callConstructors(){
-    for(constructor* i = &start_ctors; i != &end_ctors; i++){
+extern "C" void _callConstructors(){
+    for(constructor* i = &_start_ctors; i != &_end_ctors; i++){
         (*i)();
     }
 }
 
 
 
-extern "C" void kernelMain(const void* multiboot_structure, uint32_t magicnumber){
+extern "C" void _kernelMain(const void* multiboot_structure, uint32_t magicnumber){
     printf("hello world!\n");
     //printf((char*)'\n');
     //printf("cc");
@@ -67,6 +68,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t magicnumber
     GlobalDescriptorTable gdt;
 
     InterruptManager interrupts(0x20, &gdt);
+
+    //asm("sti");
+
+    //printf("sti called\n");
 
     interrupts.Activate();
 

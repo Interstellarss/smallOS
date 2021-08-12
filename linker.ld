@@ -24,11 +24,11 @@ SECTIONS
 
     .data :
     {
-        start_ctors = .;
+        _start_ctors = .;
         /*the initial segment is for constructor funtion*/
         KEEP(*(.init_array));
         KEEP(*(SORT_BY_INIT_PRIORITY(.init_array.*)));
-        end_ctors = .;
+        _end_ctors = .;
 
         *(.data)
 

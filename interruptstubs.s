@@ -65,41 +65,51 @@ HandleException 0x13
 int_bottom:
 
     # register sichern
-    pushl %ebp
-    pushl %edi
-    pushl %esi
+    # pushl %ebp
+    # pushl %edi
+    # pushl %esi
 
-    pushl %edx
-    pushl %ecx 
-    pushl %ebx 
-    pushl %eax 
+    # pushl %edx
+    # pushl %ecx 
+    # pushl %ebx 
+    # pushl %eax 
 
-    pushl %esp
+    # pushl %esp
+
+    pusha
+    pushl %ds
+    pushl %es
+    pushl %fs
+    pushl %gs
+
+
     # C++ Handler aufrufen
     pushl %esp
     push (interruptnumber)
     
     call _ZN16InterruptManager15HandleInterruptEhj
-    
-    
+    add %esp, 6
+    mov %eax, %esp
 
-    movl %eax, %esp
+    # popl %eax
+    # popl %ebx
+    # popl %ecx
+    # popl %edx 
 
-    popl %eax
-    popl %ebx
-    popl %ecx
-    popl %edx 
+    # popl %esi
+    # popl %edi
+    # popl %ebp
 
-    popl %esi
-    popl %edi
-    popl %ebp
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
+    popa
 
-    add $4, %esp
+    # add $4, %esp
 
 .global _ZN16InterruptManager15InterruptIgnoreEv
 _ZN16InterruptManager15InterruptIgnoreEv:
-    
-    
     iret
 
 
